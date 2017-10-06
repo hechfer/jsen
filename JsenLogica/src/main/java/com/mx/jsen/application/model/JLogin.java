@@ -3,10 +3,16 @@ package com.mx.jsen.application.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Document(collection = "j_login")
+
+@Entity
+@Table(name="j_login")
 public class JLogin implements Serializable{
 	/**
 	 * 
@@ -14,35 +20,31 @@ public class JLogin implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	private Long  id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_login", nullable = true)
+	private Long  idLogin;
+	@Column(name = "username", nullable = false)
 	private String username;
+	@Column(name = "password", nullable = false)
 	private String password;
+	@Column(name = "fecha_ultima_sesion", nullable = false)
 	private Date fechaUltimaSesion;
+	@Column(name = "rol", nullable = false)
 	private String rol;
+	@Column(name = "email", nullable = false)
 	private String email;
 	
-	public JLogin(){
-		//contructor
+	public Long getIdLogin() {
+		return idLogin;
 	}
-	public JLogin(Long id, String username, String password, 
-			Date fechaUltimaSesion, String rol){
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.fechaUltimaSesion = fechaUltimaSesion;		
-		this.rol = rol;
+	public void setIdLogin(Long idLogin) {
+		this.idLogin = idLogin;
 	}
 	public String getRol() {
 		return rol;
 	}
 	public void setRol(String rol) {
 		this.rol = rol;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getUsername() {
 		return username;

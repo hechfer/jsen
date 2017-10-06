@@ -7,21 +7,19 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mx.jsen.application.dao.RegistrarUsuarioDao;
-import com.mx.jsen.application.dao.SequenceIdDao;
 import com.mx.jsen.application.model.JLogin;
 import com.mx.jsen.application.util.Constantes;
 
 @Service
+@Transactional
 public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 	private static final Logger logger = LogManager.getLogger(RegistrarUsuarioServiceImpl.class);
 	
 	@Autowired
 	private RegistrarUsuarioDao registrarUsuarioDao;
-	
-	@Autowired
-	private SequenceIdDao sequenceDao;
 	
 	public String insertarUsuario(String correo, String username, String password){
 		String mensaje = null;
@@ -30,7 +28,6 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 		if(mensaje == null){
 			try {
 				JLogin loginPersistence = new JLogin();
-				loginPersistence.setId(sequenceDao.getNextSequenceId("login"));
 				loginPersistence.setEmail(correo);
 				loginPersistence.setPassword(password);
 				loginPersistence.setUsername(username);
