@@ -23,28 +23,61 @@ repositories {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.4'
+    //Spring 
     compile 'org.springframework:spring-orm:4.3.9.RELEASE'
     compile 'org.springframework:spring-context:4.3.9.RELEASE'
     compile 'org.springframework:spring-webmvc:4.3.9.RELEASE'
     compile 'org.springframework:spring-core:4.3.9.RELEASE'
-    compile 'mysql:mysql-connector-java:5.1.13'
     compile 'org.springframework.ws:spring-ws-core:2.4.0.RELEASE'
     compile 'org.springframework.security:spring-security-config:4.2.0.RELEASE'
     compile 'org.springframework.security:spring-security-taglibs:4.2.0.RELEASE'
     compile 'org.springframework.security:spring-security-web:4.2.0.RELEASE'
-    compile 'org.hibernate:hibernate-core:5.2.10.Final'
-    compile 'cglib:cglib:2.2.2'
-    compile 'org.mongodb:mongo-java-driver:2.11.0'
-    compile 'javax.servlet:jstl:1.2'
-    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
-    compile 'javax.xml.ws:jaxws-api:2.2.1'
-    compile 'log4j:log4j:1.2.17'
-    compile("wsdl4j:wsdl4j:1.6.1")
+	
+	//cxf	
     compile("org.apache.cxf:cxf-rt-frontend-jaxws:3.1.12")
     compile("org.apache.cxf:cxf-rt-transports-http:3.1.12")
+    
+    //JEE
+    compile 'javax.xml.ws:jaxws-api:2.2.1'
+    compile("wsdl4j:wsdl4j:1.6.1")
+    compile 'javax.servlet:jstl:1.2'
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+    
+    
+    //JUNIT
+    testCompile 'junit:junit:4.4'
+    
+    //MYSQL
+    compile 'mysql:mysql-connector-java:5.1.13'
+    
+    //HIBERNATE
+    compile 'org.hibernate:hibernate-core:5.2.10.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.2.10.Final'
+    compile 'org.hibernate:hibernate-validator:5.4.1.Final'
+    
+    //SPRING ORM
+    
+    compile 'org.springframework:spring-orm:4.3.9.RELEASE'
+    compile 'org.springframework.data:spring-data-jpa:1.10.4.RELEASE'
+    compile 'org.springframework:spring-tx:4.3.9.RELEASE'
+
+    
+    compile 'org.springframework.data:spring-data-mongodb:1.9.4.RELEASE'
+    
+    //Mongo
+    
+    compile 'org.mongodb:mongo-java-driver:3.2.2'
+    
+    
+    //MISC
+    compile 'cglib:cglib:2.2.2'
+    compile 'org.mongodb:mongo-java-driver:2.11.0'
+    compile 'log4j:log4j:1.2.17'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
     compile 'commons-lang:commons-lang:2.6'
+    compile 'org.modelmapper:modelmapper:0.7.4'
+    
+    
     
 }
 

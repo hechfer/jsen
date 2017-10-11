@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="j_login")
-public class JLogin implements Serializable{
+public class TblJLogin implements Serializable{
 	/**
 	 * 
 	 */
@@ -71,4 +71,12 @@ public class JLogin implements Serializable{
 		this.email = email;
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.email+this.password+this.rol+this.username+this.password;
+	}
+	
+	
+
 }

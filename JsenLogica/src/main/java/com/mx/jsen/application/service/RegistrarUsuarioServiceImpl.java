@@ -8,40 +8,50 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.mx.jsen.application.dao.RegistrarUsuarioDao;
-import com.mx.jsen.application.model.JLogin;
+import com.mx.jsen.application.dao.LoginRepository;
+import com.mx.jsen.application.model.TblJLogin;
 import com.mx.jsen.application.util.Constantes;
 
+
 @Service
-@Transactional
+
 public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 	private static final Logger logger = LogManager.getLogger(RegistrarUsuarioServiceImpl.class);
 	
 	@Autowired
-	private RegistrarUsuarioDao registrarUsuarioDao;
+	private LoginRepository loginRepository;
 	
+
+	@Transactional(rollbackFor = Exception.class)
 	public String insertarUsuario(String correo, String username, String password){
 		String mensaje = null;
 		mensaje = this.validarCorreoUsuarioPass(correo, username, password);
-		
-		if(mensaje == null){
+		logger.info("El valor del mensaje es "+mensaje);
+		if(null == mensaje ){
 			try {
-				JLogin loginPersistence = new JLogin();
+				
+				
+				TblJLogin loginPersistence = new TblJLogin();
 				loginPersistence.setEmail(correo);
 				loginPersistence.setPassword(password);
 				loginPersistence.setUsername(username);
 				loginPersistence.setFechaUltimaSesion(new Date());
 				loginPersistence.setRol(Constantes.ROL_USUARIO);
+				logger.info("Va a guardad en la base de datos8");
+				 
 				
-				registrarUsuarioDao.insertarUsuario(loginPersistence);
+				loginRepository.save(loginPersistence);
+							
 			} catch (Exception e) {
-				mensaje = "ERROR al generar o guardar los datos";
-				logger.info("ERRO JSEN : "+e.getMessage());
+				 logger.error("chec012");			
+				 mensaje = "ERROR al generar o guardar los datos";
+				 logger.info("ERRO JSEN : "+e.getMessage());				
 			}
 		}
 		return mensaje;
 	}
+	
+	
 	
 	private String validarCorreoUsuarioPass(String correo, String username, String password){
 		String mensaje = "";
@@ -50,7 +60,8 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 		}else{
 			//validar correo no exista
 			try {
-				if(registrarUsuarioDao.existeEmail(correo)){
+				logger.info("va por spring data existsByEmail");
+				if(loginRepository.existeEmail(correo)){
 					mensaje += "El email ya esta registrado con otro usuario. ";
 				}
 			} catch (Exception e) {
@@ -63,7 +74,8 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 		}else{
 			//validar usuario no exista
 			try {
-				if(registrarUsuarioDao.existeUsuario(username)){
+				logger.info("va por spring data existsByUsername");
+				if(loginRepository.existeUsuario(username)){
 					mensaje += "El usuario ya existe. ";
 				}
 			} catch (Exception e) {

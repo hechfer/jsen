@@ -51,4 +51,11 @@ public class JLoginVO implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.email+this.password+this.rol+this.username+this.password;
+	}
+	
 }

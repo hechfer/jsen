@@ -1,30 +1,34 @@
 package com.mx.jsen.application.service;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.mx.jsen.application.dao.LoginDao;
-import com.mx.jsen.application.model.JLogin;
+import com.mx.jsen.application.dao.LoginRepository;
+import com.mx.jsen.application.model.TblJLogin;
 import com.mx.jsen.application.vo.JLoginVO;
 
 @Service
 @Transactional
 public class LoginServiceImpl implements LoginService{
+	private static final Logger logger = LogManager.getLogger(LoginServiceImpl.class);
+	
+
 	@Autowired
-	private LoginDao loginDao;
+	private LoginRepository loginRepository;
+	
+	private ModelMapper modelMapper = new ModelMapper();
 	
 	public JLoginVO validarUsuario(String username, String password){		
-		JLogin login = loginDao.validarUsuario(username, password);
+		logger.info(":: Va por spring data ::");
+		TblJLogin login = loginRepository.validarUsuario(username, password);
 		JLoginVO vo = null;
 		if(login != null){
-			vo = new JLoginVO();
-			vo.setFechaUltimaSesion(login.getFechaUltimaSesion());
-			vo.setUsername(login.getUsername());
-			vo.setRol(login.getRol());
-			vo.setEmail(login.getEmail());
-			vo.setId(login.getIdLogin());
+			 vo  = modelMapper.map(login, JLoginVO.class);
 		}
+		
 		return vo;
 	}
 }
