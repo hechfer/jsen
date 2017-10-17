@@ -15,12 +15,15 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.mx.jsen.application.dao",
-entityManagerFactoryRef ="entityManagerFactory",
-transactionManagerRef = "transactionManager")
+entityManagerFactoryRef ="entityManagerFactory"
+,
+transactionManagerRef = "transactionManager"
+)
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
 
@@ -60,12 +63,19 @@ public class SpringDataBaseConfig {
 	 * TransactionManager
 	 * @return
 	 */
-	@Bean(name="transactionManager")	 
-    public JpaTransactionManager transactionManager() {	 
-		 JpaTransactionManager transactionManager = new JpaTransactionManager();
-	 	 transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());	 
-	 	 return transactionManager;	 
-	}
+	
+	@Bean(name="transactionManager")
+	   public PlatformTransactionManager transactionManager(){
+	      JpaTransactionManager transactionManager
+	        = new JpaTransactionManager();
+	      transactionManager.setEntityManagerFactory(
+	    		  entityManagerFactory().getObject() );
+	      
+	      transactionManager.setDataSource(this.getDataSource());
+	      
+	      return transactionManager;
+	   }
+	   
 	 
 	/**
 	 * Datasource 	 

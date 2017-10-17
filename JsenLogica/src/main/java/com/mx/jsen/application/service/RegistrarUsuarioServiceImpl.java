@@ -7,6 +7,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.mx.jsen.application.dao.LoginRepository;
 import com.mx.jsen.application.model.TblJLogin;
@@ -21,15 +23,12 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 	@Autowired
 	private LoginRepository loginRepository;
 	
-
 	@Transactional(rollbackFor = Exception.class)
 	public String insertarUsuario(String correo, String username, String password){
 		String mensaje = null;
 		mensaje = this.validarCorreoUsuarioPass(correo, username, password);
 		logger.info("El valor del mensaje es "+mensaje);
 		if(null == mensaje ){
-			try {
-				
 				
 				TblJLogin loginPersistence = new TblJLogin();
 				loginPersistence.setEmail(correo);
@@ -39,14 +38,7 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 				loginPersistence.setRol(Constantes.ROL_USUARIO);
 				logger.info("Va a guardad en la base de datos8");
 				 
-				
-				loginRepository.save(loginPersistence);
-							
-			} catch (Exception e) {
-				 logger.error("chec012");			
-				 mensaje = "ERROR al generar o guardar los datos";
-				 logger.info("ERRO JSEN : "+e.getMessage());				
-			}
+				loginRepository.save(loginPersistence);	
 		}
 		return mensaje;
 	}
