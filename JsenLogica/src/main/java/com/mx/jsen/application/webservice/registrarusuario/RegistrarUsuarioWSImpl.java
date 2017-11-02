@@ -16,6 +16,7 @@ import com.mx.jsen.application.service.RegistrarUsuarioService;
 public class RegistrarUsuarioWSImpl implements RegistrarUsuarioWS{
 	private static final Logger logger = LogManager.getLogger(RegistrarUsuarioWSImpl.class);
 	
+	
 	@Autowired
 	private RegistrarUsuarioService service;
 	

@@ -23,7 +23,7 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 	
 	@Autowired
 	private LoginRepository loginRepository;
-	
+
 	@Autowired
 	private LadaRepository ladaRepository;
 
@@ -45,6 +45,7 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 				logger.info("Va a guardad en la base de datos8");
 
 				loginRepository.save(loginPersistence);
+
 		}
 		return mensaje;
 	}
