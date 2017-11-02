@@ -14,7 +14,7 @@ public class LoginWSImpl implements LoginWS{
 	@Autowired
 	private LoginService service;
 	
-	public JLoginVO login(String username, String password){		
-		return service.validarUsuario(username, password);
+	public JLoginVO login(Long numero, String password){		
+		return service.validarUsuario(numero, password);
 	}
 }

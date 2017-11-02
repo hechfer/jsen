@@ -7,6 +7,6 @@ import com.mx.jsen.application.vo.JLoginVO;
 
 @WebService
 public interface LoginWS {
-	public JLoginVO login(@WebParam(name="username") String username, 
+	public JLoginVO login(@WebParam(name="numero") Long numero, 
 			@WebParam(name="password") String password);
 }

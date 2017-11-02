@@ -9,11 +9,12 @@ public class JLoginVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long  id;
-	private String username;
+	private Long numero;
 	private String password;
 	private Date fechaUltimaSesion;
 	private String rol;
-	private String email;
+	private String correo;
+	private Long lada;
 	
 	public String getRol() {
 		return rol;
@@ -27,11 +28,11 @@ public class JLoginVO implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	public Long getNumero() {
+		return numero;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setNumero(Long numero) {
+		this.numero = numero;
 	}
 	public String getPassword() {
 		return password;
@@ -45,17 +46,24 @@ public class JLoginVO implements Serializable{
 	public void setFechaUltimaSesion(Date fechaUltimaSesion) {
 		this.fechaUltimaSesion = fechaUltimaSesion;
 	}
-	public String getEmail() {
-		return email;
+	public String getCorreo() {
+		return correo;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 	
+	
+	public Long getLada() {
+		return lada;
+	}
+	public void setLada(Long lada) {
+		this.lada = lada;
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return this.email+this.password+this.rol+this.username+this.password;
+		return this.correo+this.password+this.rol+this.numero+this.password+this.lada;
 	}
 	
 }

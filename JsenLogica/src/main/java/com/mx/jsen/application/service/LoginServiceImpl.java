@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.mx.jsen.application.dao.LoginRepository;
-import com.mx.jsen.application.model.TblJLogin;
+import com.mx.jsen.application.model.TblUsuario;
 import com.mx.jsen.application.vo.JLoginVO;
 
 @Service
@@ -21,9 +21,9 @@ public class LoginServiceImpl implements LoginService{
 	
 	private ModelMapper modelMapper = new ModelMapper();
 	
-	public JLoginVO validarUsuario(String username, String password){		
+	public JLoginVO validarUsuario(Long numero, String password){		
 		logger.info(":: Va por spring data ::");
-		TblJLogin login = loginRepository.validarUsuario(username, password);
+		TblUsuario login = loginRepository.validarUsuario(numero, password);
 		JLoginVO vo = null;
 		if(login != null){
 			 vo  = modelMapper.map(login, JLoginVO.class);

@@ -1,6 +1,7 @@
 package com.mx.jsen.application.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.LogManager;
@@ -8,52 +9,51 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.mx.jsen.application.dao.LadaRepository;
 import com.mx.jsen.application.dao.LoginRepository;
-import com.mx.jsen.application.model.TblJLogin;
+import com.mx.jsen.application.model.TblLada;
+import com.mx.jsen.application.model.TblUsuario;
 import com.mx.jsen.application.util.Constantes;
 
 
 @Service
-
 public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 	private static final Logger logger = LogManager.getLogger(RegistrarUsuarioServiceImpl.class);
 	
 	@Autowired
 	private LoginRepository loginRepository;
 	
+	@Autowired
+	private LadaRepository ladaRepository;
 
 	@Transactional(rollbackFor = Exception.class)
-	public String insertarUsuario(String correo, String username, String password){
+	public String insertarUsuario(String correo, Long numero, String password, Long lada){
 		String mensaje = null;
-		mensaje = this.validarCorreoUsuarioPass(correo, username, password);
+		mensaje = this.validarCorreoUsuarioPass(correo, numero, password);
+		TblLada tblLada = this.consultarLadaPorClave(lada);
 		logger.info("El valor del mensaje es "+mensaje);
 		if(null == mensaje ){
-			try {
-				
-				
-				TblJLogin loginPersistence = new TblJLogin();
-				loginPersistence.setEmail(correo);
+			
+				TblUsuario loginPersistence = new TblUsuario();
+				loginPersistence.setCorreo(correo);
 				loginPersistence.setPassword(password);
-				loginPersistence.setUsername(username);
+				loginPersistence.setNumero(numero);
 				loginPersistence.setFechaUltimaSesion(new Date());
 				loginPersistence.setRol(Constantes.ROL_USUARIO);
+				loginPersistence.setTblLada(tblLada);
 				logger.info("Va a guardad en la base de datos8");
-				 
-				
+
 				loginRepository.save(loginPersistence);
-							
-			} catch (Exception e) {
-				 logger.error("chec012");			
-				 mensaje = "ERROR al generar o guardar los datos";
-				 logger.info("ERRO JSEN : "+e.getMessage());				
-			}
 		}
 		return mensaje;
 	}
 	
+	private TblLada consultarLadaPorClave(Long claveLocalidad){
+		return ladaRepository.consultarLadaPorClave(claveLocalidad);
+	}
 	
-	
-	private String validarCorreoUsuarioPass(String correo, String username, String password){
+	private String validarCorreoUsuarioPass(String correo, Long numero, String password){
 		String mensaje = "";
 		if(StringUtils.isBlank(correo)){
 			mensaje += "El email no puede estar vacio. ";
@@ -68,15 +68,16 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 				logger.info("ERROR JSEN VALIDAR CORREO: "+e.getMessage());
 			}
 		}
-		
-		if(StringUtils.isBlank(username)){			
-			mensaje += "El usuario no puede estar vacio. ";
+		logger.info("numero cel : "+numero);
+		logger.info("numero cel instancia : "+(numero instanceof Long));
+		if(numero == null){
+			mensaje += "El numero de celular no puede estar vacio. ";
 		}else{
 			//validar usuario no exista
 			try {
 				logger.info("va por spring data existsByUsername");
-				if(loginRepository.existeUsuario(username)){
-					mensaje += "El usuario ya existe. ";
+				if(loginRepository.existeUsuario(numero)){
+					mensaje += "El numero de celular ya existe. ";
 				}
 			} catch (Exception e) {
 				logger.info("ERROR JSEN VALIDAR USUARIO: "+e.getMessage());
@@ -88,6 +89,10 @@ public class RegistrarUsuarioServiceImpl implements RegistrarUsuarioService{
 		}
 		
 		return StringUtils.isBlank(mensaje) ? null : mensaje;
+	}
+
+	public List<TblLada> consultarLada() {
+		return ladaRepository.findAll();
 	}
 	
 }
